@@ -30,7 +30,7 @@ var fragment = document.createDocumentFragment();
 generateWizards();
 renderWizards();
 
-setupWindowOpen.addEventListener('click', showWizardSettings);
+setupWindowOpen.addEventListener('click', setupWindowOpenClickHandler);
 
 setupWindowOpen.addEventListener('keydown', function (evt) {
   if (evt.key === Key.ENTER) {
@@ -38,7 +38,7 @@ setupWindowOpen.addEventListener('keydown', function (evt) {
   }
 });
 
-setupWindowClose.addEventListener('click', hideWizardSettings);
+setupWindowClose.addEventListener('click', setupWindowCloseClickHandler);
 
 setupWindowClose.addEventListener('keydown', function (evt) {
   if (evt.key === Key.ENTER) {
@@ -46,11 +46,31 @@ setupWindowClose.addEventListener('keydown', function (evt) {
   }
 });
 
-wizardCoat.addEventListener('click', changeCoatColor);
+wizardCoat.addEventListener('click', wizardCoatClickHandler);
 
-wizardEyes.addEventListener('click', changeEyesColor);
+wizardEyes.addEventListener('click', wizardEyesClickHandler);
 
-wizardFireball.addEventListener('click', changeFireballColor);
+wizardFireball.addEventListener('click', wizardFireballClickHandler);
+
+function setupWindowOpenClickHandler() {
+  showWizardSettings();
+}
+
+function setupWindowCloseClickHandler() {
+  hideWizardSettings();
+}
+
+function wizardCoatClickHandler() {
+  changeCoatColor();
+}
+
+function wizardEyesClickHandler() {
+  changeEyesColor();
+}
+
+function wizardFireballClickHandler() {
+  changeFireballColor();
+}
 
 function changeFireballColor() {
   var color = getRandomItem(FIREBALLS);
@@ -70,7 +90,7 @@ function changeCoatColor() {
   inputCoat.value = color;
 }
 
-function onWindowEscPress(evt) {
+function windowEscPressHandler(evt) {
   if (evt.key === Key.ESC && !(evt.target && evt.target.matches('input[type="text"]'))) {
     hideWizardSettings();
   }
@@ -78,12 +98,12 @@ function onWindowEscPress(evt) {
 
 function hideWizardSettings() {
   setupWindow.classList.add('hidden');
-  document.removeEventListener('keydown', onWindowEscPress);
+  document.removeEventListener('keydown', windowEscPressHandler);
 }
 
 function showWizardSettings() {
   setupWindow.classList.remove('hidden');
-  document.addEventListener('keydown', onWindowEscPress);
+  document.addEventListener('keydown', windowEscPressHandler);
 }
 
 function generateWizards() {
