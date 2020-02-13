@@ -1,7 +1,5 @@
 'use strict';
 (function () {
-  var DIALOG_TOP_DEFAULT = '80px';
-  var DIALOG_LEFT_DEFAULT = '50%';
   var dialog;
   var dialogOpenBtn;
   var dialogCloseBtn;
@@ -79,11 +77,11 @@
         document.removeEventListener('mouseup', mouseUpHandler);
 
         if (dragged) {
-          var onClickPreventDefault = function (clickEvt) {
+          var clickPreventDefaultHandler = function (clickEvt) {
             clickEvt.preventDefault();
-            draggableBtn.removeEventListener('click', onClickPreventDefault);
+            draggableBtn.removeEventListener('click', clickPreventDefaultHandler);
           };
-          draggableBtn.addEventListener('click', onClickPreventDefault);
+          draggableBtn.addEventListener('click', clickPreventDefaultHandler);
         }
 
       };
@@ -105,8 +103,7 @@
   }
 
   function setDefaultSettings() {
-    dialog.style.left = DIALOG_LEFT_DEFAULT;
-    dialog.style.top = DIALOG_TOP_DEFAULT;
+    dialog.removeAttribute('style');
   }
 
   window.dialog = {
