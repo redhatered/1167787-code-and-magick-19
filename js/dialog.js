@@ -4,6 +4,7 @@
   var dialogOpenBtn;
   var dialogCloseBtn;
   var draggableBtn;
+  var form;
 
   function setupWindowOpenClickHandler() {
     showDialog();
@@ -21,6 +22,7 @@
 
   function setDialog(element) {
     dialog = element;
+    form = element.querySelector('form');
   }
 
   function setDialogOpenBtn(element) {
@@ -29,6 +31,7 @@
     dialogOpenBtn.addEventListener('keydown', function (evt) {
       window.utils.isEnterEvent(evt, showDialog);
     });
+    form.addEventListener('submit', formSubmitHandler);
   }
 
   function setDialogCloseBtn(element) {
@@ -104,6 +107,11 @@
 
   function setDefaultSettings() {
     dialog.removeAttribute('style');
+  }
+
+  function formSubmitHandler(evt) {
+    evt.preventDefault();
+    window.backend.save(new FormData(form), hideDialog, window.utils.errorHandler);
   }
 
   window.dialog = {

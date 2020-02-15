@@ -8,6 +8,7 @@
     FIREBALLS_COLORS: ['#ee4830', '#30a8ee', '#5ce6c0', '#e848d5', '#e6e848'],
     COUNT_WIZARDS: 4,
   };
+  var MAX_SIMILAR_WIZARD_COUNT = 4;
 
   var setupWindow = document.querySelector('.setup');
   var setupWindowOpen = document.querySelector('.setup-open');
@@ -23,12 +24,9 @@
   var inputEyes = setupWindow.querySelector('input[name=eyes-color]');
   var inputFireball = setupWindow.querySelector('input[name=fireball-color]');
   var draggableBtn = setupWindow.querySelector('.upload');
-  var wizards = [];
   var fragment = document.createDocumentFragment();
 
-  generateWizards();
-  renderWizards();
-
+  window.backend.load(renderWizards, window.utils.errorHandler);
   window.dialog.setDialog(setupWindow);
   window.dialog.setDialogOpenBtn(setupWindowOpen);
   window.dialog.setDialogCloseBtn(setupWindowClose);
@@ -68,22 +66,26 @@
     inputCoat.value = color;
   }
 
-  function generateWizards() {
-    for (var i = 0; i < wizardMockData.COUNT_WIZARDS; i++) {
-      wizards.push(generateWizard());
+  // function generateWizards() {
+  //   for (var i = 0; i < wizardMockData.COUNT_WIZARDS; i++) {
+  //     wizards.push(generateWizard());
+  //   }
+  // }
+
+  // function generateWizard() {
+  //   return {
+  //     name: window.utils.getRandomItem(wizardMockData.NAMES) + ' ' + window.utils.getRandomItem(wizardMockData.LAST_NAMES),
+  //     coatColor: window.utils.getRandomItem(wizardMockData.COAT_COLORS),
+  //     eyesColor: window.utils.getRandomItem(wizardMockData.EYES_COLORS),
+  //   };
+  // }
+
+  function renderWizards(wizards) {
+    var maxWizards = MAX_SIMILAR_WIZARD_COUNT;
+    if (wizards.length < MAX_SIMILAR_WIZARD_COUNT) {
+      maxWizards = wizards.length;
     }
-  }
-
-  function generateWizard() {
-    return {
-      name: window.utils.getRandomItem(wizardMockData.NAMES) + ' ' + window.utils.getRandomItem(wizardMockData.LAST_NAMES),
-      coatColor: window.utils.getRandomItem(wizardMockData.COAT_COLORS),
-      eyesColor: window.utils.getRandomItem(wizardMockData.EYES_COLORS),
-    };
-  }
-
-  function renderWizards() {
-    for (var j = 0; j < wizards.length; j++) {
+    for (var j = 0; j < maxWizards; j++) {
       fragment.appendChild(renderWizard(wizards[j]));
     }
     setupSimilarList.appendChild(fragment);
@@ -93,9 +95,10 @@
   function renderWizard(wizardData) {
     var wizardElement = similarWizardTemplate.cloneNode(true);
     wizardElement.querySelector('.setup-similar-label').textContent = wizardData.name;
-    wizardElement.querySelector('.wizard-coat').style.fill = wizardData.coatColor;
-    wizardElement.querySelector('.wizard-eyes').style.fill = wizardData.eyesColor;
+    wizardElement.querySelector('.wizard-coat').style.fill = wizardData.colorCoat;
+    wizardElement.querySelector('.wizard-eyes').style.fill = wizardData.colorEyes;
 
     return wizardElement;
   }
+
 })();
