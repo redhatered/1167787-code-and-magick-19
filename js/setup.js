@@ -26,7 +26,7 @@
   var draggableBtn = setupWindow.querySelector('.upload');
   var fragment = document.createDocumentFragment();
 
-  window.backend.load(renderWizards, window.utils.errorHandler);
+  window.backend.load(loadHandler, window.utils.errorHandler);
   window.dialog.setDialog(setupWindow);
   window.dialog.setDialogOpenBtn(setupWindowOpen);
   window.dialog.setDialogCloseBtn(setupWindowClose);
@@ -64,6 +64,10 @@
     var color = window.utils.getRandomItem(wizardMockData.COAT_COLORS);
     window.colorize(wizardCoat, color);
     inputCoat.value = color;
+  }
+
+  function loadHandler() {
+    renderWizards();
   }
 
   function renderWizards(wizards) {
