@@ -66,26 +66,8 @@
     inputCoat.value = color;
   }
 
-  // function generateWizards() {
-  //   for (var i = 0; i < wizardMockData.COUNT_WIZARDS; i++) {
-  //     wizards.push(generateWizard());
-  //   }
-  // }
-
-  // function generateWizard() {
-  //   return {
-  //     name: window.utils.getRandomItem(wizardMockData.NAMES) + ' ' + window.utils.getRandomItem(wizardMockData.LAST_NAMES),
-  //     coatColor: window.utils.getRandomItem(wizardMockData.COAT_COLORS),
-  //     eyesColor: window.utils.getRandomItem(wizardMockData.EYES_COLORS),
-  //   };
-  // }
-
   function renderWizards(wizards) {
-    var maxWizards = MAX_SIMILAR_WIZARD_COUNT;
-    if (wizards.length < MAX_SIMILAR_WIZARD_COUNT) {
-      maxWizards = wizards.length;
-    }
-    for (var j = 0; j < maxWizards; j++) {
+    for (var j = 0; j < Math.min(MAX_SIMILAR_WIZARD_COUNT, wizards.length); j++) {
       fragment.appendChild(renderWizard(wizards[j]));
     }
     setupSimilarList.appendChild(fragment);
